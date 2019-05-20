@@ -77,6 +77,13 @@ trap(struct trapframe *tf)
             cpuid(), tf->cs, tf->eip);
     lapiceoi();
     break;
+    
+  case T_PGFLT:
+    if (rcr2() < STACKBASE) {
+	  allocuvm(myproc()->pgdir, STACKBASE-((myproc()->npages+1)*PGSIZE), STACKBASE-((myproc()->npages)*PGSIZE));
+	  myproc()->npages++;
+	  break;
+	}
 
   //PAGEBREAK: 13
   default:
