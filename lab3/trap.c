@@ -82,6 +82,7 @@ trap(struct trapframe *tf)
     if (rcr2() < STACKBASE) {
 	  allocuvm(myproc()->pgdir, STACKBASE-((myproc()->npages+1)*PGSIZE), STACKBASE-((myproc()->npages)*PGSIZE));
 	  myproc()->npages++;
+	  cprintf("Number of pages allocated: %d\n", myproc()->npages);
 	  break;
 	}
 
